@@ -11,8 +11,7 @@ function useColumn () {
   })
 
   const handleDragStart = (evt: React.DragEvent<HTMLDivElement>, task: Task, column: string) => {
-    const taskJSON = JSON.stringify(task)
-    evt.dataTransfer.setData('task', taskJSON)
+    evt.dataTransfer.setData('taskId', task.id)
     evt.dataTransfer.setData('fromColumn', column)
   }
 
@@ -22,16 +21,19 @@ function useColumn () {
 
   const handleDrop = (evt: React.DragEvent<HTMLDivElement>, column: string) => {
     evt.preventDefault()
-    const task = evt.dataTransfer.getData('task')
+    const taskId = evt.dataTransfer.getData('taskId')
     const fromColumn = evt.dataTransfer.getData('fromColumn')
-    const taskObject = JSON.parse(task)
 
     if (fromColumn !== column) {
       const newColumns = { ...columns }
-      const taskIndex = newColumns[fromColumn].indexOf(taskObject)
-      newColumns[fromColumn].splice(taskIndex, 1)
-      newColumns[column].push(taskObject)
-      setColumns(newColumns)
+      const taskToMove = newColumns[fromColumn].find(task => task.id === taskId)
+      if (taskToMove !== null && taskToMove !== undefined) {
+        newColumns[fromColumn] = newColumns[fromColumn].filter(task => task.id !== taskId)
+
+        newColumns[column].push(taskToMove)
+
+        setColumns(newColumns)
+      }
     }
   }
 

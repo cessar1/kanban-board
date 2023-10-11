@@ -1,14 +1,11 @@
-// import { useState } from 'react'
 import Column from './components/Column.tsx'
 import './App.css'
 import useColumn from './hooks/useColums.ts'
 import Board from './components/Board.tsx'
 import Header from './components/Header.tsx'
 import { type TaskDescription } from './types'
-// import { useState } from 'react'
 
 function App () {
-  // const [task, setTask] = useState<Task>()
   const { columns, setColumns, handleDragStart, handleDragOver, handleDrop } = useColumn()
 
   const handleAddTask = ({ description }: TaskDescription) => {
@@ -32,7 +29,7 @@ function App () {
           title='Sin Realizar'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          onDragStar={handleDragStart}
+          onDragStart={handleDragStart}
           tasks={columns.todo}
           columnName='todo'
         />
@@ -40,7 +37,7 @@ function App () {
           title='En Proceso'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          onDragStar={handleDragStart}
+          onDragStart={handleDragStart}
           tasks={columns.inProgress}
           columnName='inProgress'
         />
@@ -48,7 +45,7 @@ function App () {
           title='Realizado'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          onDragStar={handleDragStart}
+          onDragStart={handleDragStart}
           tasks={columns.done}
           columnName='done'
         />
